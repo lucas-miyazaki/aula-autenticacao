@@ -1,53 +1,58 @@
-import React, { useState, useEffect } from 'react';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import Button from 'react-bootstrap/Button';
+import Button from 'react-bootstrap/esm/Button';
 import AuthRequests from '../../fetch/AuthRequests';
-import { MdLogout } from "react-icons/md";
-import styles from './Navegacao.module.css'
+import { useState, useEffect } from 'react';
 
 function Navegacao() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [username, setUsername] = useState('');
 
-
     useEffect(() => {
         const token = localStorage.getItem('token');
-        const username = localStorage.getItem('username');
+        const storedUsername = localStorage.getItem('username');
         if (token && AuthRequests.checkTokenExpiry()) {
             setIsAuthenticated(true);
-            setUsername(username);
+            setUsername(storedUsername);
         } else {
             setIsAuthenticated(false);
         }
     }, []);
 
-    const handleLogin = () => {
-        window.location.href = '/login';
-    };
+    const estiloNavbar = {
+        backgroundColor: 'var(--primaryColor)',
+    }
 
-    const handleLogout = () => {
+    const estiloNavOptions = {
+        color: 'var(--fontColor)',
+    }
+
+    const logout = () => {
         AuthRequests.removeToken();
-        setIsAuthenticated(false);
-    };
+    }
 
     return (
-        <Navbar className={styles.estiloNavbar}>
-            <Container>
-                <Navbar.Brand href="/" className={styles.estiloNavOptions}>Home</Navbar.Brand>
-                <Nav className="me-auto">
-                    <Nav.Link href="/pessoas" className={styles.estiloNavOptions}>Pessoas</Nav.Link>
+        <>
+            <Navbar style={estiloNavbar}>
+                <Container>
+                    <Navbar.Brand href="/" style={estiloNavOptions}>Home</Navbar.Brand>
                     {isAuthenticated ? (
-                        <Button onClick={handleLogout} variant='light'>
-                            <MdLogout /> Sair
-                        </Button>
+                        <>
+                            <Nav className="me-auto">
+                                <Nav.Link href="/pessoas" style={estiloNavOptions}>Pessoas</Nav.Link>
+                            </Nav>
+                            <Nav>
+                                <Nav.Link style={estiloNavOptions}>Olá, {username.split(' ')[0]}</Nav.Link>
+                                <Button variant='light' onClick={logout}>Sair</Button>
+                            </Nav>
+                        </>
                     ) : (
-                        <Button onClick={handleLogin} variant='light'>Login</Button>
+                        <Button href='/login' variant='light'>Login</Button>
                     )}
-                </Nav>
-            </Container>
-        </Navbar>
+                </Container>
+            </Navbar>
+        </>
     );
 }
 
