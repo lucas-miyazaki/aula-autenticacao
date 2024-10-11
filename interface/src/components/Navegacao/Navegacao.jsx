@@ -30,7 +30,6 @@ function Navegacao() {
     const handleLogout = () => {
         AuthRequests.removeToken();
         setIsAuthenticated(false);
-        window.location.href = '/';
     };
 
     return (

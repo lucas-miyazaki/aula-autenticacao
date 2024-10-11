@@ -80,7 +80,7 @@ class AuthRequests {
         // remove o idPessoa do localstorage
         localStorage.removeItem('idPessoa');
         // redireciona o usuário para a página Home
-        window.location.href = '/';
+        window.location.href = '/login';
     }
 
     /**
