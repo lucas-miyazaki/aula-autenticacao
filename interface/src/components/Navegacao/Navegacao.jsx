@@ -7,14 +7,14 @@ import { useState, useEffect } from 'react';
 
 function Navegacao() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const [username, setUsername] = useState('');
+    const [nomeUsuario, setNomeUsuario] = useState('');
 
     useEffect(() => {
         const token = localStorage.getItem('token');
-        const storedUsername = localStorage.getItem('username');
+        const storedNomeUsuario = localStorage.getItem('username');
         if (token && AuthRequests.checkTokenExpiry()) {
             setIsAuthenticated(true);
-            setUsername(storedUsername);
+            setNomeUsuario(storedNomeUsuario);
         } else {
             setIsAuthenticated(false);
         }
@@ -43,7 +43,7 @@ function Navegacao() {
                                 <Nav.Link href="/pessoas" style={estiloNavOptions}>Pessoas</Nav.Link>
                             </Nav>
                             <Nav>
-                                <Nav.Link style={estiloNavOptions}>Olá, {username.split(' ')[0]}</Nav.Link>
+                                <Nav.Link style={estiloNavOptions}>Bem vindo, {nomeUsuario}</Nav.Link>
                                 <Button variant='light' onClick={logout}>Sair</Button>
                             </Nav>
                         </>
